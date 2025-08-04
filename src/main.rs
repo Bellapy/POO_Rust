@@ -1,21 +1,22 @@
 use std::io;
 
-// Herança (via Traits), Polimorfismo
+// --- Atributos ---
+
 trait CalculaArea {
     fn area(&self) -> f64;
 }
 
-// Structs
-// Atributos
-// Encapsulamento (campos são privados por padrão)
+// --- Structs isa---
+#[derive(Debug)] 
 struct Retangulo {
     largura: f64,
     altura: f64,
 }
 
-// impl
+// --- impl isa---
+
 impl Retangulo {
-    // Construtores
+    // --- Construtor isa ---
     fn new(largura: f64, altura: f64) -> Result<Self, String> {
         if largura <= 0.0 || altura <= 0.0 {
             return Err("Dimensões devem ser positivas.".to_string());
@@ -23,13 +24,18 @@ impl Retangulo {
         Ok(Retangulo { largura, altura })
     }
 }
+
+// --- Polimorfismo e Herança (via Trait) val ---
+
 impl CalculaArea for Retangulo {
     fn area(&self) -> f64 { self.largura * self.altura }
 }
 
+#[derive(Debug)]
 struct Circulo {
     raio: f64,
 }
+
 impl Circulo {
     fn new(raio: f64) -> Result<Self, String> {
         if raio <= 0.0 {
@@ -38,14 +44,17 @@ impl Circulo {
         Ok(Circulo { raio })
     }
 }
+
 impl CalculaArea for Circulo {
     fn area(&self) -> f64 { std::f64::consts::PI * self.raio.powi(2) }
 }
 
+#[derive(Debug)]
 struct Triangulo {
     base: f64,
     altura: f64,
 }
+
 impl Triangulo {
     fn new(base: f64, altura: f64) -> Result<Self, String> {
         if base <= 0.0 || altura <= 0.0 {
@@ -54,15 +63,18 @@ impl Triangulo {
         Ok(Triangulo { base, altura })
     }
 }
+
 impl CalculaArea for Triangulo {
     fn area(&self) -> f64 { (self.base * self.altura) / 2.0 }
 }
 
+#[derive(Debug)]
 struct Trapezio {
     base_maior: f64,
     base_menor: f64,
     altura: f64,
 }
+
 impl Trapezio {
     fn new(base_maior: f64, base_menor: f64, altura: f64) -> Result<Self, String> {
         if base_maior <= 0.0 || base_menor <= 0.0 || altura <= 0.0 {
@@ -71,14 +83,17 @@ impl Trapezio {
         Ok(Trapezio { base_maior, base_menor, altura })
     }
 }
+
 impl CalculaArea for Trapezio {
     fn area(&self) -> f64 { ((self.base_maior + self.base_menor) * self.altura) / 2.0 }
 }
 
+#[derive(Debug)]
 struct Paralelogramo {
     base: f64,
     altura: f64,
 }
+
 impl Paralelogramo {
     fn new(base: f64, altura: f64) -> Result<Self, String> {
         if base <= 0.0 || altura <= 0.0 {
@@ -87,10 +102,10 @@ impl Paralelogramo {
         Ok(Paralelogramo { base, altura })
     }
 }
+
 impl CalculaArea for Paralelogramo {
     fn area(&self) -> f64 { self.base * self.altura }
 }
-
 
 fn main() {
     println!("--- Calculadora de Áreas ---");
@@ -113,10 +128,13 @@ fn main() {
                 let largura = ler_valor_numerico("Digite a largura:");
                 let altura = ler_valor_numerico("Digite a altura:");
 
-                // Tratamento de Exceções
+                // --- Tratamento de Exceções val---
                 match Retangulo::new(largura, altura) {
-                    // Instâncias
-                    Ok(forma) => println!("> A área é: {:.2}", forma.area()),
+                    // --- Instância criada com sucesso ---
+                    Ok(forma) => {
+                        // --- Polimorfismo val ---
+                        println!("> A área é: {:.2}", forma.area());
+                    },
                     Err(e) => println!("Erro: {}", e),
                 }
             }
@@ -125,7 +143,9 @@ fn main() {
                 let raio = ler_valor_numerico("Digite o raio:");
 
                 match Circulo::new(raio) {
-                    Ok(forma) => println!("> A área é: {:.2}", forma.area()),
+                    Ok(forma) => {
+                        println!("> A área é: {:.2}", forma.area());
+                    },
                     Err(e) => println!("Erro: {}", e),
                 }
             }
@@ -135,7 +155,9 @@ fn main() {
                 let altura = ler_valor_numerico("Digite a altura:");
 
                 match Triangulo::new(base, altura) {
-                    Ok(forma) => println!("> A área é: {:.2}", forma.area()),
+                    Ok(forma) => {
+                        println!("> A área é: {:.2}", forma.area());
+                    },
                     Err(e) => println!("Erro: {}", e),
                 }
             }
@@ -146,7 +168,9 @@ fn main() {
                 let altura = ler_valor_numerico("Digite a altura:");
 
                 match Trapezio::new(base_maior, base_menor, altura) {
-                    Ok(forma) => println!("> A área é: {:.2}", forma.area()),
+                    Ok(forma) => {
+                        println!("> A área é: {:.2}", forma.area());
+                    },
                     Err(e) => println!("Erro: {}", e),
                 }
             }
@@ -156,7 +180,9 @@ fn main() {
                 let altura = ler_valor_numerico("Digite a altura:");
 
                 match Paralelogramo::new(base, altura) {
-                    Ok(forma) => println!("> A área é: {:.2}", forma.area()),
+                    Ok(forma) => {
+                        println!("> A área é: {:.2}", forma.area());
+                    },
                     Err(e) => println!("Erro: {}", e),
                 }
             }
@@ -171,6 +197,7 @@ fn main() {
     }
 }
 
+// Função para ler valores numéricos da entrada do usuário
 fn ler_valor_numerico(prompt: &str) -> f64 {
     loop {
         println!("{}", prompt);
